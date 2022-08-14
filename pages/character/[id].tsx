@@ -1,21 +1,31 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { GetStaticPaths } from 'next';
 import { GetStaticProps } from 'next';
 import { Grid, Card, Text, Button, useTheme } from '@nextui-org/react';
 
-import { RickAndMortyDetailsResponse } from '../../interfaces/rickAndMorty-Details';
+import { RickAndMortyDetailsResponse } from '../../interfaces/';
 
 import { Layout } from '../../components/layouts';
 import { rickAndMortyApi } from '../../services';
+import { toggleFavorite } from '../../utils';
+import { isInFavorites } from '../../utils/localStorage';
 
 interface Props {
   character: RickAndMortyDetailsResponse;
 }
 
 const CharacterPage: FC<Props> = ({ character }) => {
+  const [isFavorite, setIsFavorite] = useState(isInFavorites(character.id));
+
   const { theme } = useTheme();
+
+  const LSToggle = () => {
+    toggleFavorite(character.id);
+    setIsFavorite(!isFavorite);
+  };
+
   return (
-    <Layout>
+    <Layout title={character.name}>
       <Grid.Container css={{ marginTop: 4 }} gap={2}>
         <Grid xs={12}>
           <Card css={{ padding: 16 }}>
@@ -23,8 +33,8 @@ const CharacterPage: FC<Props> = ({ character }) => {
               <Text h1 color='primary'>
                 {character.name}
               </Text>
-              <Button color='gradient' ghost>
-                ADD TO FAVORITES
+              <Button color='gradient' ghost={!isFavorite} onClick={LSToggle}>
+                {isFavorite ? 'REMOVE FROM FAVORITES' : 'ADD TO FAVORITES'}
               </Button>
             </Card.Header>
             <Card.Body>
@@ -43,27 +53,27 @@ const CharacterPage: FC<Props> = ({ character }) => {
                     gap={2}
                   >
                     <Grid direction='column'>
-                      <Text h3>
+                      <Text h4>
                         <span style={{ color: theme?.colors.primary.value }}>Status: </span>
                         {character.status}
                       </Text>
-                      <Text h3>
+                      <Text h4>
                         <span style={{ color: theme?.colors.primary.value }}>Gender: </span>
                         {character.gender}
                       </Text>
-                      <Text h3>
+                      <Text h4>
                         <span style={{ color: theme?.colors.primary.value }}>Specie: </span>
                         {character.species}
                       </Text>
                     </Grid>
                     <Grid direction='column'>
-                      <Text h3>
+                      <Text h4>
                         <span style={{ color: theme?.colors.primary.value }}>Origin:</span> {character.origin.name}
                       </Text>
-                      <Text h3>
+                      <Text h4>
                         <span style={{ color: theme?.colors.primary.value }}>Location:</span> {character.location.name}
                       </Text>
-                      <Text h3>
+                      <Text h4>
                         <span style={{ color: theme?.colors.primary.value }}>Total Episodes:</span> {character.episode.length}
                       </Text>
                     </Grid>

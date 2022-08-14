@@ -25,7 +25,11 @@ const Navbar = () => {
         </Link>
       </NextLink>
       <Spacer css={{ flex: 1 }} />
-      <Text h3>Favorites</Text>
+      <NextLink href='/favorites' passHref>
+        <Link color='text' style={{ textDecoration: 'none' }}>
+          <Text h3>Favorites</Text>
+        </Link>
+      </NextLink>
     </div>
   );
 };
