@@ -114,20 +114,29 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
   return {
     paths: characters.map((id) => ({ params: { id } })),
-    fallback: false
+    fallback: 'blocking'
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { id } = params as { id: string };
+  try {
+    const { id } = params as { id: string };
+    const { data: character } = await rickAndMortyApi.get<RickAndMortyDetailsResponse>(`/character/${id}`);
 
-  const { data: character } = await rickAndMortyApi.get<RickAndMortyDetailsResponse>(`/character/${id}`);
-
-  return {
-    props: {
-      character
-    }
-  };
+    return {
+      props: {
+        character
+      },
+      revalidate: 86400
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    };
+  }
 };
 
 export default CharacterPage;
