@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { GetStaticPaths } from 'next';
 import { GetStaticProps } from 'next';
 import { Grid, Card, Text, Button, useTheme } from '@nextui-org/react';
+import confetti from 'canvas-confetti';
 
 import { RickAndMortyDetailsResponse } from '../../interfaces/';
 
@@ -22,6 +23,19 @@ const CharacterPage: FC<Props> = ({ character }) => {
   const LSToggle = () => {
     toggleFavorite(character.id);
     setIsFavorite(!isFavorite);
+
+    if (isFavorite) return;
+
+    confetti({
+      zIndex: 999,
+      particleCount: 150,
+      spread: 150,
+      angle: -90,
+      origin: {
+        x: 0.75,
+        y: 0.15
+      }
+    });
   };
 
   return (
@@ -30,7 +44,14 @@ const CharacterPage: FC<Props> = ({ character }) => {
         <Grid xs={12}>
           <Card css={{ padding: 16 }}>
             <Card.Header css={{ justifyContent: 'space-between' }}>
-              <Text h1 color='primary'>
+              <Text
+                h1
+                size={60}
+                css={{
+                  textGradient: '45deg, $purple600 -20%, $pink600 100%'
+                }}
+                weight='bold'
+              >
                 {character.name}
               </Text>
               <Button color='gradient' ghost={!isFavorite} onClick={LSToggle}>
