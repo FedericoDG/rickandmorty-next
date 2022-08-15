@@ -11,6 +11,6 @@ const FavoritePage = () => {
     setCharacters(charactersInFavorites());
   }, []);
 
-  return <Layout>{!characters.length ? <NoFavorites /> : <FavoriteCharacters characters={characters} />}</Layout>;
+  return <Layout>{characters.length === 0 ? <NoFavorites /> : <FavoriteCharacters characters={characters} />}</Layout>;
 };
 export default FavoritePage;
