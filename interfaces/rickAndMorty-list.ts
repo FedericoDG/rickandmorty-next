@@ -3,7 +3,7 @@ export interface RickAndMortyListResponse {
   results: character[];
 }
 
-export interface Info {
+interface Info {
   count: number;
   pages: number;
   next: string;
@@ -25,23 +25,23 @@ export interface character {
   created: string;
 }
 
-export enum Gender {
+enum Gender {
   Female = 'Female',
   Male = 'Male',
   Unknown = 'unknown'
 }
 
-export interface Location {
+interface Location {
   name: string;
   url: string;
 }
 
-export enum Species {
+enum Species {
   Alien = 'Alien',
   Human = 'Human'
 }
 
-export enum Status {
+enum Status {
   Alive = 'Alive',
   Dead = 'Dead',
   Unknown = 'unknown'

@@ -9,6 +9,8 @@ interface Props {
   title?: string;
 }
 
+const origin = typeof window !== 'undefined' ? window.location.origin : '';
+
 const Layout: FC<Props> = ({ children, title }) => {
   return (
     <>
@@ -17,6 +19,9 @@ const Layout: FC<Props> = ({ children, title }) => {
         <meta name='author' content='Federico González' />
         <meta name='description' content={`Información son el personaje ${title}`} />
         <meta name='keywords' content={`${title}, rick, morty`} />
+        <meta property='og:title' content={`información sobre: ${title}`} />
+        <meta property='og:description' content={`Esta es la página de infromación sobre: ${title}`} />
+        <meta property='og:image' content={`${origin}/images/banner.jpg`} />
       </Head>
       <Navbar />
       <Container lg>
